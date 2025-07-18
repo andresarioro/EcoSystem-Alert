@@ -1,4 +1,4 @@
-const { SerialPort } = require('serialport');
+import { SerialPort } from 'serialport'
 
 SerialPort.list().then(ports => {
   console.log('🔍 Puertos detectados por Node.js:');
