@@ -1,10 +1,10 @@
 import { SerialPort } from 'serialport'
 
 SerialPort.list().then(ports => {
-  console.log('🔍 Puertos detectados por Node.js:');
+  console.log('🔍 Puertos detectados por Node.js:')
   ports.forEach(port => {
-    console.log(`🔌 ${port.path}`);
-  });
+    console.log(`🔌 ${port.path}`)
+  })
 }).catch(err => {
-  console.error('❌ Error al listar puertos:', err);
-});
+  console.error('❌ Error al listar puertos:', err)
+})
