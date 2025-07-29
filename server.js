@@ -29,8 +29,9 @@ port.open(err => {
 
 // 📤 Enviar datos recibidos al cliente vía WebSocket
 parser.on('data', data => {
-  console.log('📨 Dato recibido:', data.trim())
-  io.emit('serial-data', data.trim())
+  const result = data.trim()
+  console.log('📨 Dato recibido:', result)
+  io.emit('serial-data', result)
 })
 
 // 🖥️ Iniciar el servidor
