@@ -17,8 +17,10 @@ function prepararDatos(datos) {
   // en caso de que sea 21 elementos, datos.slice(17, 20)
 
   for (let i = 0; i < datos.length - pasosEntrada; i++) {
-    const entrada = datos.slice(i, i + pasosEntrada) // datos.slice(0, 20)
-    const salida = datos.slice(datos.length - 1 - pasosSalida, datos.length - 1) // datos.slice(17, 20)
+    if (datos.length < 21) return "No hay resultados suficientes para un pronostico"
+
+    const entrada = datos.slice(i, i + pasosEntrada);
+    const salida = datos.slice(i + pasosEntrada, i + pasosEntrada + pasosSalida);
     inputs.push(entrada)
     outputs.push(salida)
   }
