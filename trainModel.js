@@ -2,11 +2,11 @@ import tf from '@tensorflow/tfjs-node'
 import { createModel } from './createModel.js'
 
 // Datos de ejemplo (deberías traerlos desde tu BD)
-const datosH = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50]
-const datosV = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50]
-const datosG = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50]
-const datosA = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50]
-const datosL = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50]
+const datosH = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
+const datosV = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
+const datosG = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
+const datosA = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
+const datosL = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
 
 const pasosEntrada = 20
 const pasosSalida = 3
@@ -17,9 +17,10 @@ function prepararDatos (datos) {
   const inputs = []
   const outputs = []
 
-  for (let i = 0; i < datos.length - pasosEntrada; i++) {
+  for (let i = 0; i < datos.length - (pasosEntrada + pasosSalida); i++) {
     const entrada = datos.slice(i, i + pasosEntrada)
     const salida = datos.slice(i + pasosEntrada, i + pasosEntrada + pasosSalida)
+    console.log(`Entrada: ${entrada}, Salida: ${salida}`)
     inputs.push(entrada)
     outputs.push(salida)
   }
@@ -33,7 +34,6 @@ function prepararDatos (datos) {
 // Entrena el modelo
 async function entrenarModelo (datos) {
   const { x, y } = prepararDatos(datos)
-  console.log(x, y)
   const modelo = createModel(pasosEntrada, pasosSalida)
 
   await modelo.fit(x, y, {
