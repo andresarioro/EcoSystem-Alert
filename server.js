@@ -4,6 +4,7 @@ import { Server } from 'socket.io'
 import { SerialPort } from 'serialport'
 import { ReadlineParser } from '@serialport/parser-readline'
 import { configPort, PORT } from './config.js'
+import { SensorRepository } from './repository/repository.js'
 
 // 🖥️ Inicializar Express y servidor HTTP
 const app = express()
@@ -28,10 +29,18 @@ port.open(err => {
 })
 
 // 📤 Enviar datos recibidos al cliente vía WebSocket
-parser.on('data', data => {
+parser.on('data', async (data) => {
   const result = data.trim()
-  console.log('📨 Dato recibido:', result)
-  io.emit('serial-data', result)
+  // suponiendo que dato es Sensor tal: 202
+  const sensor = result.split(':')[0]
+  const value = Number(result.split(':')[1])
+
+  // suponiendo que data.trim() sea Humedad: 51, o Acelerometro: 104, se escoge la primera letra del nombre del sensor
+  await SensorRepository.saveData({ sensorType: sensor[0].toUpperCase(), sensorResult: value })
+  io.emit('serial-data', {
+    type: sensor[0].toUpperCase(),
+    value
+  })
 })
 
 // 🖥️ Iniciar el servidor

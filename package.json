@@ -7,14 +7,15 @@
   "scripts": {
     "seed": "node -r dotenv/config ./script/seed.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "testModel": "node ./trainModel.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
-    "@tensorflow/tfjs-node": "^4.22.0",
+    "@tensorflow/tfjs-node": "^3.18.0",
     "dotenv": "17.2.1",
     "express": "5.1.0",
     "serialport": "13.0.0",
