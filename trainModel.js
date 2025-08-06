@@ -1,12 +1,6 @@
 import tf from '@tensorflow/tfjs-node'
 import { createModel } from './createModel.js'
 
-// Datos de ejemplo (deberías traerlos desde tu BD)
-const datosH = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
-const datosV = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
-const datosG = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
-const datosA = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
-const datosL = [52, 55, 54, 56, 53, 52, 51, 53, 54, 55, 56, 57, 58, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 55, 58]
 
 const pasosEntrada = 20
 const pasosSalida = 3
@@ -20,7 +14,6 @@ function prepararDatos (datos) {
   for (let i = 0; i < datos.length - (pasosEntrada + pasosSalida); i++) {
     const entrada = datos.slice(i, i + pasosEntrada)
     const salida = datos.slice(i + pasosEntrada, i + pasosEntrada + pasosSalida)
-    console.log(`Entrada: ${entrada}, Salida: ${salida}`)
     inputs.push(entrada)
     outputs.push(salida)
   }
@@ -41,28 +34,23 @@ async function entrenarModelo (datos) {
     verbose: 0
   })
 
+  console.log(datos)
   console.log('Entrenamiento completo.')
 
   // Usamos los últimos 20 para predecir los siguientes 3
-  const ultimaEntrada = datosH.slice(-pasosEntrada)
-  console.log('Última entrada para predecir:', ultimaEntrada)
+  const ultimaEntrada = datos.slice(-pasosEntrada)
   const prediccion = modelo.predict(tf.tensor2d([ultimaEntrada]))
   prediccion.print() // Puedes convertirlo a array si quieres
 
   return prediccion.arraySync()[0]
 }
 
-async function entrenarYPredecir (nombre, datos) {
+export async function entrenarYPredecir (nombre, datos) {
   try {
     const pred = await entrenarModelo(datos)
-    console.log(`Predicción para ${nombre}:`, pred.map(v => v.toFixed(2)))
+    // se ve como si fuera un array dentro de otro ([[]]), pero en realidad se los indices se maneja como si fuera un array normal
+    return pred.map(v => v.toFixed(2))
   } catch (err) {
     console.error(`Error al entrenar para ${nombre}:`, err.message)
   }
 }
-
-entrenarYPredecir('H', datosH)
-entrenarYPredecir('V', datosV)
-entrenarYPredecir('G', datosG)
-entrenarYPredecir('A', datosA)
-entrenarYPredecir('L', datosL)

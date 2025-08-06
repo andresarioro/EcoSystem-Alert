@@ -8,4 +8,3 @@ await sql`CREATE TABLE IF NOT EXISTS datos (
     sensor_result INT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );`
-

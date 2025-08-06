@@ -18,7 +18,7 @@ export function HomePage () {
           <p>E</p>
           <p>M</p>
         </section>
-        <section className='hidden overflow-y-scroll scrollbar-custom flex-wrap xl:flex flex-1 h-[700px] items-center gap-15 w-full'>
+        <section className='hidden overflow-y-scroll scrollbar-custom flex-wrap xl:flex flex-1 h-[700px] items-center gap-35 w-full'>
           <div className="mask-gradient-bottom text-white/90 w-full bg-[url('/Zona-posible-derrumbe.PNG')] bg-black flex flex-col gap-5 text-center justify-center items-center bg-cover bg-center h-[300px]">
             <div>
               <h1 className='text-3xl font-bold'>Bienvenido a EcoSystem</h1>
@@ -34,7 +34,7 @@ export function HomePage () {
             </button>
           </div>
           <div className='flex flex-wrap overflow-x-hidden items-center justify-around w-full mt-10'>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='w-85 h-85' />
+            <img src='/img-2.jfif' alt='example' width={400} height={400} className='w-85 h-85 object-contain rounded-xl' />
             <div>
               <h2 className='font-bold'>¿Qué es EcoSystem?</h2>
               <p className='w-80'>
@@ -55,10 +55,10 @@ export function HomePage () {
                 y a las autoridades locales.
               </p>
             </div>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='w-85 h-85' />
+            <img src='/img-1.jfif' alt='example' width={400} height={400} className='w-85 h-85 object-contain rounded-xl' />
           </div>
           <div className='flex flex-wrap overflow-x-hidden items-center justify-around w-full'>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='w-85 h-85' />
+            <img src='/img-3.jfif' alt='example' width={400} height={400} className='w-85 h-85 object-contain rounded-xl' />
             <div>
               <h2 className=' font-bold'>¿Porque es importante?</h2>
               <p className='w-80 h-80'>
@@ -77,7 +77,7 @@ export function HomePage () {
                 en la seguridad y prevención de desastres naturales.
               </p>
             </div>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='w-85 h-85' />
+            <img src='/img-4.jfif' alt='example' width={400} height={400} className='w-85 h-85 object-contain rounded-xl' />
           </div>
         </section>
 
@@ -106,7 +106,7 @@ export function HomePage () {
                 estabilidad del terreno y enviar alertas a los usuarios.
               </p>
             </div>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
+            <img src='/img-2.jfif' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
           </div>
           <div className='p-4 flex flex-wrap overflow-x-hidden items-center justify-center w-full gap-15'>
             <div>
@@ -119,7 +119,7 @@ export function HomePage () {
                 y a las autoridades locales.
               </p>
             </div>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
+            <img src='/img-1.jfif' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
           </div>
           <div className='p-4 flex flex-wrap overflow-x-hidden items-center justify-around w-full gap-15'>
             <div>
@@ -130,7 +130,7 @@ export function HomePage () {
                 de tierra y alertar a las autoridades y a la comunidad en caso de emergencia.
               </p>
             </div>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
+            <img src='/img-3.jfif' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
           </div>
           <div className='p-4 flex flex-wrap overflow-x-hidden items-center justify-around h-fit w-full gap-15'>
             <div className='w-full sm:w-80'>
@@ -141,7 +141,7 @@ export function HomePage () {
                 en la seguridad y prevención de desastres naturales.
               </p>
             </div>
-            <img src='/9272915.png' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
+            <img src='/img-4.jfif' alt='example' width={400} height={400} className='sm:w-50 sm:h-50 w-35 h-35' />
           </div>
         </section>
       </section>

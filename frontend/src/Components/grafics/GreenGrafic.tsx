@@ -17,7 +17,7 @@ export default function GreenGrafic() {
     { name: 'H', value: 0 },
     { name: 'A', value: 0 },
     { name: 'G', value: 0 },
-    { name: 'V', value: 0 },
+    { name: 'C', value: 0 },
     { name: 'L', value: 0 },
   ])
 
@@ -47,7 +47,7 @@ export default function GreenGrafic() {
   }, [])
 
   return (
-    <ResponsiveContainer width='100%' height={400}>
+    <ResponsiveContainer width='100%' height={400} key={snsData.toString()}>
       <BarChart data={snsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
