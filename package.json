@@ -1,7 +1,7 @@
 {
   "name": "web-dashboard-com",
   "version": "1.0.0",
-  "description": "",
+  "description": "Repositorio para la construcción de sitio que permita visualizar la lectura de sensores en un sistema de alerta temprana de desastres",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,5 +14,6 @@
     "express": "^5.1.0",
     "serialport": "^13.0.0",
     "socket.io": "^4.8.1"
-  }
+  },
+  "devDependencies": {}
 }

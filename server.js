@@ -14,7 +14,7 @@ app.use(express.static('public'));
 
 // 🛠️ CONFIGURACIÓN DEL PUERTO SERIAL (verifica COM y baudRate)
 const port = new SerialPort({
-  path: 'COM20',      // Asegúrate de que este sea el puerto correcto
+  path: 'COM3',      // Asegúrate de que este sea el puerto correcto
   baudRate: 9600,   // Configura según tu dispositivo
   autoOpen: false     // Desactivamos apertura automática para manejar errores
 });
