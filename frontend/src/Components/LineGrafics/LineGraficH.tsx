@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { fetchSnH } from '../../fetchs/fetchs';
+import { fetchDataSensors } from '../../fetchs/fetchs';
 import { useEffect, useState } from 'react';
 import type { SensorData } from '../../types/types';
 
@@ -8,7 +8,7 @@ export function LineGraficH() {
   
     useEffect(() => {
       const getSnData = async () => {
-        const data = await fetchSnH()
+        const data = await fetchDataSensors('H')
   
         setSnData(() => {
           const updatedArr = data.map((value: number) => {

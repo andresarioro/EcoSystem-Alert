@@ -24,98 +24,27 @@ app.use(cors({
 // 🌐 Servir archivos estáticos desde carpeta 'public'
 app.use(express.static('public'))
 
-app.get('/datos-h', async (req, res) => {
+
+app.post('/get-data', async (req, res) => {
+  const { sensorType } = await req.body
+
   try {
-    const results = await SensorRepository.getSensorsData('H')
+    const sensorResults = await SensorRepository.getSensorsData(sensorType)
     return res.status(200).json({ res: results })
   } catch (e) {
     return res.status(500).json({ error: e.message })
   }
 })
 
-app.get('/datos-a', async (req, res) => {
-  try {
-    const results = await SensorRepository.getSensorsData('A')
-    return res.status(200).json({ res: results })
-  } catch (e) {
-    return res.status(500).json({ error: e.message })
-  }
-})
+app.post('/get-pred', async (req, res) => {
+  const { sensorType } = await req.body
 
-app.get('/datos-c', async (req, res) => {
   try {
-    const results = await SensorRepository.getSensorsData('C')
-    return res.status(200).json({ res: results })
-  } catch (e) {
-    return res.status(500).json({ error: e.message })
-  }
-})
-
-app.get('/datos-g', async (req, res) => {
-  try {
-    const results = await SensorRepository.getSensorsData('G')
-    return res.status(200).json({ res: results })
-  } catch (e) {
-    return res.status(500).json({ error: e.message })
-  }
-})
-
-app.get('/datos-l', async (req, res) => {
-  try {
-    const results = await SensorRepository.getSensorsData('L')
-    return res.status(200).json({ res: results })
-  } catch (e) {
-    return res.status(500).json({ error: e.message })
-  }
-})
-
-app.get('/pred-h', async (req, res) => {
-  try {
-    const values = await SensorRepository.getSensorsData('H')
-    const predRes = await entrenarYPredecir('H', values)
+    const sensorResults = await SensorRepository.getSensorsData(sensorType)
+    const predRes = await entrenarYPredecir(sensorType, sensorResults)
     return res.status(200).json({ res: predRes })
   } catch (e) {
-    return res.status(500).json({ err: e.message })
-  }
-})
 
-app.get('/pred-a', async (req, res) => {
-  try {
-    const values = await SensorRepository.getSensorsData('A')
-    const predRes = await entrenarYPredecir('A', values)
-    return res.status(200).json({ res: predRes })
-  } catch (e) {
-    return res.status(500).json({ err: e.message })
-  }
-})
-
-app.get('/pred-g', async (req, res) => {
-  try {
-    const values = await SensorRepository.getSensorsData('G')
-    const predRes = await entrenarYPredecir('G', values)
-    return res.status(200).json({ res: predRes })
-  } catch (e) {
-    return res.status(500).json({ err: e.message })
-  }
-})
-
-app.get('/pred-c', async (req, res) => {
-  try {
-    const values = await SensorRepository.getSensorsData('C')
-    const predRes = await entrenarYPredecir('C', values)
-    return res.status(200).json({ res: predRes })
-  } catch (e) {
-    return res.status(500).json({ err: e.message })
-  }
-})
-
-app.get('/pred-l', async (req, res) => {
-  try {
-    const values = await SensorRepository.getSensorsData('L')
-    const predRes = await entrenarYPredecir('L', values)
-    return res.status(200).json({ res: predRes })
-  } catch (e) {
-    return res.status(500).json({ err: e.message })
   }
 })
 

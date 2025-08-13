@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import type { SensorData } from '../../types/types';
-import { fetchSnG } from '../../fetchs/fetchs';
+import { fetchDataSensors } from '../../fetchs/fetchs';
 
 
 export function LineGraficG() {
@@ -9,7 +9,7 @@ export function LineGraficG() {
   
     useEffect(() => {
       const getSnData = async () => {
-        const data = await fetchSnG()
+        const data = await fetchDataSensors('G')
   
         setSnData(() => {
           const updatedArr = data.map((value: number) => {

@@ -5,7 +5,7 @@ import { LineGraficH } from "../LineGrafics/LineGraficH";
 import { LineGraficL } from "../LineGrafics/LineGraficL";
 import { LineGraficC } from "../LineGrafics/LineGraficC";
 import { useEffect, useState } from "react";
-import { fetchPredA, fetchPredC, fetchPredG, fetchPredH, fetchPredL } from "../../fetchs/fetchs";
+import { fetchPreds } from "../../fetchs/fetchs";
 
 export function GroupGraffics() {
     const [hPreds, setHPreds] = useState<number[]>([])
@@ -16,19 +16,19 @@ export function GroupGraffics() {
 
     useEffect(() => {
         const getPreds = async () => {
-            const hPred = await fetchPredH()
+            const hPred = await fetchPreds('H')
             setHPreds(hPred)
 
-            const aPred = await fetchPredA()
+            const aPred = await fetchPreds('A')
             setAPreds(aPred)
 
-            const gPred = await fetchPredG()
+            const gPred = await fetchPreds('G')
             setGPreds(gPred)
 
-            const cPred = await fetchPredC()
+            const cPred = await fetchPreds('C')
             setCPreds(cPred)
 
-            const lPred = await fetchPredL()
+            const lPred = await fetchPreds('L')
             setLPreds(lPred)
         }
 
