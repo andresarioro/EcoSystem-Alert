@@ -6,6 +6,7 @@ import { LineGraficL } from "../LineGrafics/LineGraficL";
 import { LineGraficC } from "../LineGrafics/LineGraficC";
 import { useEffect, useState } from "react";
 import { fetchPreds } from "../../fetchs/fetchs";
+import { LineGraficV } from "../LineGrafics/LineGraficV";
 
 export function GroupGraffics() {
     const [hPreds, setHPreds] = useState<number[]>([])
@@ -13,6 +14,7 @@ export function GroupGraffics() {
     const [gPreds, setGPreds] = useState<number[]>([])
     const [cPreds, setCPreds] = useState<number[]>([])
     const [lPreds, setLPreds] = useState<number[]>([])
+    const [vPreds, setVpreds] = useState<number[]>([])
 
     useEffect(() => {
         const getPreds = async () => {
@@ -30,6 +32,9 @@ export function GroupGraffics() {
 
             const lPred = await fetchPreds('L')
             setLPreds(lPred)
+
+            const vPred = await fetchPreds('V')
+            setVpreds(vPred)
         }
 
         getPreds()
@@ -179,6 +184,32 @@ export function GroupGraffics() {
                             </div>
                             <div className="flex flex-col justify-center items-center">
                                 {lPreds[2]}
+                                <ExclamationTriangleIcon className="w-10 h-10"/>
+                                Alerta
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section className="w-full flex flex-col justify-center items-center gap-4 border-t-1 border-black py-10">
+                    <h1 className="text-center font-bold text-xl">Lluvia: </h1>
+                    <LineGraficV />
+                    {/*Agregar logica despues */}
+                    <div className="flex flex-col items-center justify-center gap-4">
+                        <h1 className="text-lg font-bold text-center">Predicciones del sensor: </h1>
+                        <section className="flex items-center justify-center gap-5">
+                            <div className="flex flex-col justify-center items-center">
+                                {vPreds[0]}
+                                <CheckIcon className="w-10 h-10"/>
+                                Todo bien
+                            </div>
+                            <div className="flex flex-col justify-center items-center">
+                                {vPreds[1]}
+                                <MinusIcon className="w-10 h-10"/>
+                                Precaucion
+                            </div>
+                            <div className="flex flex-col justify-center items-center">
+                                {vPreds[2]}
                                 <ExclamationTriangleIcon className="w-10 h-10"/>
                                 Alerta
                             </div>

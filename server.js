@@ -17,6 +17,8 @@ const io = new Server(server, {
   }
 })
 
+app.use(express.json());
+
 app.use(cors({
   origin: 'http://localhost:5173'
 }))
@@ -30,7 +32,8 @@ app.post('/get-data', async (req, res) => {
 
   try {
     const sensorResults = await SensorRepository.getSensorsData(sensorType)
-    return res.status(200).json({ res: results })
+    console.log(sensorResults)
+    return res.status(200).json({ res: sensorResults })
   } catch (e) {
     return res.status(500).json({ error: e.message })
   }
@@ -44,7 +47,7 @@ app.post('/get-pred', async (req, res) => {
     const predRes = await entrenarYPredecir(sensorType, sensorResults)
     return res.status(200).json({ res: predRes })
   } catch (e) {
-
+    return res.status(500).json({ error: e.message })
   }
 })
 

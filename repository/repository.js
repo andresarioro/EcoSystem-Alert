@@ -11,7 +11,8 @@ export class SensorRepository {
   static async getSensorsData (sensorType) {
     if (!sensorType) return []
 
-    const result = await sql`SELECT sensor_result FROM datos WHERE sensor_type = ${sensorType}`
+    const result = await sql`SELECT sensor_result FROM datos WHERE sensor_type = ${sensorType}
+    AND created_at >= NOW() - INTERVAL '8 hours';`
 
     const sensorValues = result.map(data => data.sensor_result)
 

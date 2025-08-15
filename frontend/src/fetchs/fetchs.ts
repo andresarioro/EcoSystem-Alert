@@ -9,7 +9,7 @@ export async function fetchDataSensors (sensorType: string) {
 
     const data = await res.json()
 
-    return data
+    return data.res
 }
 
 export async function fetchPreds (sensorType: string) {
@@ -23,5 +23,5 @@ export async function fetchPreds (sensorType: string) {
 
     const data = await res.json()
 
-    return data
+    return data.res
 }

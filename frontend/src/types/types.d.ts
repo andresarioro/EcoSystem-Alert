@@ -3,11 +3,23 @@ export type PredictionData = {
     predictionsG: number[],
     predictionsA: number[],
     predictionsL: number[],
-    predictionsC: number[]
+    predictionsC: number[],
+    predictionsV: number[]
 }
 
 export type SensorData = {
     valores: number
+}
+
+enum LvlAlerts {
+    FIRST_LEVEL = 1,
+    SECOND_LEVEL = 2,
+    THIRD_LEVEL = 3
+}
+
+export type alerts = {
+    alertMsg: string,
+    alertLvl: LvlAlerts,
 }
 
 /*predictionsA
