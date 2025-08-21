@@ -78,7 +78,9 @@ export function Dashboard () {
         console.log(e)
       }
       
-    }, [])
+    }, [dataPredictions])
+
+    console.log(alert)
 
   return (
     <main className='text-black font-montserrat flex flex-col items-center justify-center min-h-screen w-full bg-gray-200'>
@@ -111,10 +113,21 @@ export function Dashboard () {
             <p className='text-center'>Aquí se mostrarán las señales de alerta detectadas por el sistema.</p>
           </div>
           {alert && <section>
-            {alert.alertLvl === 1 && <p>Todo va bien</p>} {/*Mostrar svg despues */}
-            {alert.alertLvl === 2 && <p>Todo va no tan bien</p>} {/*Mostrar svg despues */}
-                        {alert.alertLvl === 1 && <p>Alerta</p>} {/*Mostrar svg despues */}
-            <p>{alert.alertMsg}</p>  
+            {alert.alertLvl === 1 &&
+              <div>
+                <p>Todo va bien</p>
+              </div> 
+            } {/*Mostrar svg despues */}
+            {alert.alertLvl === 2 && 
+              <div>
+                <p>Todo va no tan bien</p>
+              </div>
+            } {/*Mostrar svg despues */}
+            {alert.alertLvl === 3 && 
+              <div>
+                <p>Alerta</p>
+              </div>
+            }  {/*Mostrar svg despues */}
           </section>}
         </section>
       </section>

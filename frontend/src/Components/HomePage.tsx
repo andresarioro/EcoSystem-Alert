@@ -25,9 +25,9 @@ export function HomePage () {
               <p className='text-xl'>Un sistema que alerta posibles derrumbes y otros desastres naturales</p>
             </div>
             <button
-              onClick={() => navigate('/dashboard')} className='flex cursor-pointer hover:bg-[var(--primary-color)]/90
-                    transition-colors duration-150 ease-in-out gap-2 items-center px-4 py-2
-                    bg-[var(--primary-color)] rounded-lg text-black'
+              onClick={() => navigate('/dashboard')} type='button' className='flex cursor-pointer hover:bg-[var(--primary-color)]/90
+              transition-colors duration-150 ease-in-out gap-2 items-center px-4 py-2
+              bg-[var(--primary-color)] rounded-lg text-black'
             >
               Ver señales
               <ArrowUpRightIcon className='w-4 h-4' />

@@ -1,6 +1,4 @@
 import { CheckIcon, ExclamationTriangleIcon, MinusIcon } from "@heroicons/react/24/outline";
-import { LineGraficA } from "../LineGrafics/LineGraficA";
-import { LineGraficG } from "../LineGrafics/LineGraficG";
 import { LineGraficH } from "../LineGrafics/LineGraficH";
 import { LineGraficL } from "../LineGrafics/LineGraficL";
 import { LineGraficC } from "../LineGrafics/LineGraficC";
@@ -10,8 +8,6 @@ import { LineGraficV } from "../LineGrafics/LineGraficV";
 
 export function GroupGraffics() {
     const [hPreds, setHPreds] = useState<number[]>([])
-    const [aPreds, setAPreds] = useState<number[]>([])
-    const [gPreds, setGPreds] = useState<number[]>([])
     const [cPreds, setCPreds] = useState<number[]>([])
     const [lPreds, setLPreds] = useState<number[]>([])
     const [vPreds, setVpreds] = useState<number[]>([])
@@ -20,12 +16,6 @@ export function GroupGraffics() {
         const getPreds = async () => {
             const hPred = await fetchPreds('H')
             setHPreds(hPred)
-
-            const aPred = await fetchPreds('A')
-            setAPreds(aPred)
-
-            const gPred = await fetchPreds('G')
-            setGPreds(gPred)
 
             const cPred = await fetchPreds('C')
             setCPreds(cPred)
@@ -61,7 +51,7 @@ export function GroupGraffics() {
                     {/*Agregar logica despues */}
                     <div className="flex flex-col items-center justify-center gap-4">
                         <h1 className="text-lg font-bold text-center">Predicciones del sensor: </h1>
-                        <section className="flex items-center justify-center gap-5">
+                        {hPreds ? <section className="flex items-center justify-center gap-5">
                             <div className="flex flex-col justify-center items-center">
                                 {hPreds[0]}
                                 <CheckIcon className="w-10 h-10"/>
@@ -78,73 +68,19 @@ export function GroupGraffics() {
                                 Alerta
                             </div>
                         </section>
-                    </div>
-                </section>
-
-
-
-                <section className="w-full flex flex-col justify-center items-center gap-4 border-t-1 border-black pt-10">
-                    <h1 className="text-center font-bold text-xl">Giroscopio: </h1>
-                    <LineGraficG />
-                    {/*Agregar logica despues */}
-                    <div className="flex flex-col items-center justify-center gap-4">
-                        <h1 className="text-lg font-bold text-center">Predicciones del sensor: </h1>
-                        <section className="flex items-center justify-center gap-5">
-                            <div className="flex flex-col justify-center items-center">
-                                {gPreds[0]}
-                                <CheckIcon className="w-10 h-10"/>
-                                Todo bien
-                            </div>
-                            <div className="flex flex-col justify-center items-center">
-                                {gPreds[1]}
-                                <MinusIcon className="w-10 h-10"/>
-                                Precaucion
-                            </div>
-                            <div className="flex flex-col justify-center items-center">
-                                {gPreds[2]}
-                                <ExclamationTriangleIcon className="w-10 h-10"/>
-                                Alerta
-                            </div>
-                        </section>
+                        : <p className="text-lg font-bold text-center">No hay predicciones disponibles actuales para mostrar</p>}
                     </div>
                 </section>
 
 
                 <section className="w-full flex flex-col justify-center items-center gap-4 border-t-1 border-black pt-10">
-                    <h1 className="text-center font-bold text-xl">Acelerometro: </h1>
-                    <LineGraficA />
-                    {/*Agregar logica despues */}
-                    <div className="flex flex-col items-center justify-center gap-4">
-                        <h1 className="text-lg font-bold text-center">Predicciones del sensor: </h1>
-                        <section className="flex items-center justify-center gap-5">
-                            <div className="flex flex-col justify-center items-center">
-                                {aPreds[0]}
-                                <CheckIcon className="w-10 h-10"/>
-                                Todo bien
-                            </div>
-                            <div className="flex flex-col justify-center items-center">
-                                {aPreds[1]}
-                                <MinusIcon className="w-10 h-10"/>
-                                Precaucion
-                            </div>
-                            <div className="flex flex-col justify-center items-center">
-                                {aPreds[2]}
-                                <ExclamationTriangleIcon className="w-10 h-10"/>
-                                Alerta
-                            </div>
-                        </section>
-                    </div>
-                </section>
-
-
-                <section className="w-full flex flex-col justify-center items-center gap-4 border-t-1 border-black pt-10">
-                    <h1 className="text-center font-bold text-xl">Cambio</h1>
+                    <h1 className="text-center font-bold text-xl">Aceleracion y giro de la tierra</h1>
                     {/* cambio por m */}
                     <LineGraficC />
                     {/*Agregar logica despues */}
                     <div className="flex flex-col items-center justify-center gap-4">
                         <h1 className="text-lg font-bold text-center">Predicciones del sensor: </h1>
-                        <section className="flex items-center justify-center gap-5">
+                        {cPreds ? <section className="flex items-center justify-center gap-5">
                             <div className="flex flex-col justify-center items-center">
                                 {cPreds[0]}
                                 <CheckIcon className="w-10 h-10"/>
@@ -161,6 +97,7 @@ export function GroupGraffics() {
                                 Alerta
                             </div>
                         </section>
+                        : <p className="text-lg font-bold text-center">No hay predicciones disponibles actuales para mostrar</p>}
                     </div>
                 </section>
 
@@ -171,7 +108,7 @@ export function GroupGraffics() {
                     {/*Agregar logica despues */}
                     <div className="flex flex-col items-center justify-center gap-4">
                         <h1 className="text-lg font-bold text-center">Predicciones del sensor: </h1>
-                        <section className="flex items-center justify-center gap-5">
+                        {lPreds ? <section className="flex items-center justify-center gap-5">
                             <div className="flex flex-col justify-center items-center">
                                 {lPreds[0]}
                                 <CheckIcon className="w-10 h-10"/>
@@ -188,16 +125,17 @@ export function GroupGraffics() {
                                 Alerta
                             </div>
                         </section>
+                        : <p className="text-lg font-bold text-center">No hay predicciones disponibles actuales para mostrar</p>}
                     </div>
                 </section>
 
                 <section className="w-full flex flex-col justify-center items-center gap-4 border-t-1 border-black py-10">
-                    <h1 className="text-center font-bold text-xl">Lluvia: </h1>
+                    <h1 className="text-center font-bold text-xl">Vibracion: </h1>
                     <LineGraficV />
                     {/*Agregar logica despues */}
                     <div className="flex flex-col items-center justify-center gap-4">
                         <h1 className="text-lg font-bold text-center">Predicciones del sensor: </h1>
-                        <section className="flex items-center justify-center gap-5">
+                        {lPreds ? <section className="flex items-center justify-center gap-5">
                             <div className="flex flex-col justify-center items-center">
                                 {vPreds[0]}
                                 <CheckIcon className="w-10 h-10"/>
@@ -214,6 +152,7 @@ export function GroupGraffics() {
                                 Alerta
                             </div>
                         </section>
+                        : <p className="text-lg font-bold text-center">No hay predicciones disponibles actuales para mostrar</p>}
                     </div>
                 </section>
             </section>

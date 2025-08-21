@@ -31,7 +31,7 @@ app.post('/get-data', async (req, res) => {
   const { sensorType } = await req.body
 
   try {
-    const sensorResults = await SensorRepository.getSensorsData(sensorType)
+    const sensorResults = await SensorRepository.getSensorsDataWithoutPred(sensorType)
     console.log(sensorResults)
     return res.status(200).json({ res: sensorResults })
   } catch (e) {
@@ -74,16 +74,51 @@ parser.on('data', async (data) => {
 
   // si el valor es + de 1000 manda alerta
   // L: 1024
-  if (value > 1000) {
+  // if (maxValueH > 400 && maxValueH < 800 ||
+  //           maxValueC > 400 && maxValueC < 800 ||
+  //           maxValueL > 50 && maxValueL < 100 ||
+  //           maxValueV > 400 && maxValueV < 800 
+  //       ) 
+
+  if (sensor === 'H' > 400 && sensor === 'H' < 800 ||
+      sensor === 'C' > 400 && sensor === 'C' < 800 ||
+      sensor === 'L' > 50 && sensor === 'L' < 100 ||
+      sensor === 'V' > 400 && sensor === 'V' < 800
+  ) {
     const sensorName = (
       sensor === 'H' && 'Humedad' ?
-      sensor === 'A' && 'Aceleracion' :
-      sensor === 'G' && 'Giroscopio' ?
-      sensor === 'L' && 'Lluvia' :
+      sensor === 'V' && 'Vibracion' :
+      sensor === 'L' && 'Lluvia' &&
       sensor === 'C' && 'Cambio'
     )
 
-    const textMessage = `El Sensor ${sensorName} tiene señales preocupantes, visualizen la zona`
+    const textMessage = `Aviso 🚧: El Sensor ${sensorName} tiene señales sospechosas, recomendado visualizar la zona`
+    
+    const tgRes = fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: textMessage
+      })
+    })
+
+    if (!tgRes.ok) throw new Error('Error al enviar el mensaje a telegram')
+  } else if (sensor === 'H' > 800 ||
+        sensor === 'C' > 800 ||
+        sensor === 'L' > 100 ||
+        sensor === 'V' > 800
+  ) {
+    const sensorName = (
+      sensor === 'H' && 'Humedad' ?
+      sensor === 'V' && 'Vibracion' :
+      sensor === 'L' && 'Lluvia' &&
+      sensor === 'C' && 'Cambio'
+    )
+
+    const textMessage = `Alerta ⚠❗: El Sensor ${sensorName} tiene señales alertantes, visualizar y revisar la zona urgentemente`
     
     const tgRes = fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
@@ -110,9 +145,7 @@ parser.on('data', async (data) => {
 io.on('connection', async (socket) => {
   socket.on('prediction', async () => {
     const datosH = await SensorRepository.getSensorsData('H')
-    // const datosV = await SensorRepository.getSensorsData('V')
-    const datosG = await SensorRepository.getSensorsData('G')
-    const datosA = await SensorRepository.getSensorsData('A')
+    const datosV = await SensorRepository.getSensorsData('V')
     const datosC = await SensorRepository.getSensorsData('C')
     const datosL = await SensorRepository.getSensorsData('L')
 
@@ -122,15 +155,9 @@ io.on('connection', async (socket) => {
       })
     }
 
-    if (!datosG || datosG.length < 23) {
+    if (!datosV || datosV.length < 23) {
       socket.emit('error', {
-        message: 'No hay suficientes datos para hacer una prediccion en el Giroscopio'
-      })
-    }
-
-    if (!datosA || datosA.length < 23) {
-      socket.emit('error', {
-        message: 'No hay suficientes datos para hacer una prediccion en el Acelerometro'
+        message: 'No hay suficientes datos para hacer una prediccion en la vibracion'
       })
     }
 
@@ -142,20 +169,18 @@ io.on('connection', async (socket) => {
 
     if (!datosC || datosC.length < 23) {
       socket.emit('error', {
-        message: 'No hay suficientes datos para hacer una prediccion en el cambio promedio'
+        message: 'No hay suficientes datos para hacer una prediccion en el cambio del giroscopio y acelerometro'
       })
     }
 
     const predH = await entrenarYPredecir('H', datosH)
-    const predG = await entrenarYPredecir('G', datosG)
-    const predA = await entrenarYPredecir('A', datosA)
+    const predV = await entrenarYPredecir('V', datosV)
     const predL = await entrenarYPredecir('L', datosL)
     const predC = await entrenarYPredecir('C', datosC)
 
     io.emit('prediction', {
       predictionsH: predH,
-      predictionsG: predG,
-      predictionsA: predA,
+      predictionsV: predV,
       predictionsL: predL,
       predictionsC: predC     
     })

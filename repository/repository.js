@@ -18,4 +18,14 @@ export class SensorRepository {
 
     return sensorValues
   }
+
+  static async getSensorsDataWithoutPred (sensorType) {
+    if (!sensorType) return []
+
+    const result = await sql`SELECT sensor_result FROM datos WHERE sensor_type = ${sensorType};`
+
+    const sensorValues = result.map(data => data.sensor_result)
+
+    return sensorValues
+  }
 }

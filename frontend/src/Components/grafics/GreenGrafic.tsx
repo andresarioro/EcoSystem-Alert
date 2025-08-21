@@ -15,8 +15,7 @@ import { io } from 'socket.io-client'
 export default function GreenGrafic() {
   const [snsData, setSnsData] = useState([
     { name: 'H', value: 0 },
-    { name: 'A', value: 0 },
-    { name: 'G', value: 0 },
+    { name: 'V', value: 0 },
     { name: 'C', value: 0 },
     { name: 'L', value: 0 },
   ])

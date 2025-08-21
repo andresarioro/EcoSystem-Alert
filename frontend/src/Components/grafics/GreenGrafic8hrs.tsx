@@ -6,9 +6,8 @@ import type { PredictionData } from '../../types/types'
 // esto traerselo desde db
 const data = [
   { name: 'H', value1: 0, value2: 0, value3: 0 },
-  { name: 'A', value1: 0, value2: 0, value3: 0 },
-  { name: 'G', value1: 0, value2: 0, value3: 0 },
-  // { name: 'V', value1: 0, value2: 0, value3: 0 },
+  { name: 'C', value1: 0, value2: 0, value3: 0 },
+  { name: 'V', value1: 0, value2: 0, value3: 0 },
   { name: 'L', value1: 0, value2: 0, value3: 0 }
 ]
 
@@ -31,9 +30,8 @@ export function GreenGrafic8hrs () {
         setDataPredictions([
           { name: 'C', value1: predictionData.predictionsC[0], value2: predictionData.predictionsC[1], value3: predictionData.predictionsC[2] },
           { name: 'H', value1: predictionData.predictionsH[0], value2: predictionData.predictionsH[1], value3: predictionData.predictionsH[2] },
-          { name: 'A', value1: predictionData.predictionsA[0], value2: predictionData.predictionsA[1], value3: predictionData.predictionsA[2] },
-          { name: 'G', value1: predictionData.predictionsG[0], value2: predictionData.predictionsG[1], value3: predictionData.predictionsG[2] },
-          { name: 'L', value1: predictionData.predictionsL[0], value2: predictionData.predictionsL[1], value3: predictionData.predictionsL[2] },
+          { name: 'V', value1: predictionData.predictionsV[0], value2: predictionData.predictionsV[1], value3: predictionData.predictionsV[2] },
+          { name: 'L', value1: predictionData.predictionsL[0], value2: predictionData.predictionsL[1], value3: predictionData.predictionsL[2] }
         ])
       })
 
