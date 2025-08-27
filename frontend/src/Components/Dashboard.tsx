@@ -4,6 +4,7 @@ import { GreenGrafic8hrs } from './grafics/GreenGrafic8hrs'
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import type { alerts, PredictionData } from '../types/types'
+import { CheckIcon, ExclamationTriangleIcon, MinusIcon } from '@heroicons/react/24/outline'
 
 const data = [
   { name: 'H', value1: 0, value2: 0, value3: 0 },
@@ -114,18 +115,21 @@ export function Dashboard () {
           </div>
           {alert && <section>
             {alert.alertLvl === 1 &&
-              <div>
-                <p>Todo va bien</p>
+              <div className='flex flex-col items-center justify-center gap-2'>
+                <CheckIcon className='w-7 h-7' />
+                <p className='text-center'>Todo va bien</p>
               </div> 
             } {/*Mostrar svg despues */}
             {alert.alertLvl === 2 && 
-              <div>
-                <p>Todo va no tan bien</p>
+              <div className='flex flex-col items-center justify-center gap-2'>
+                <MinusIcon className='w-7 h-7'/>
+                <p className='text-center'>Todo va no tan bien</p>
               </div>
             } {/*Mostrar svg despues */}
             {alert.alertLvl === 3 && 
-              <div>
-                <p>Alerta</p>
+              <div className='flex flex-col items-center justify-center gap-2'>
+                <ExclamationTriangleIcon className='w-7 h-7'/>
+                <p className='text-center'>Alerta</p>
               </div>
             }  {/*Mostrar svg despues */}
           </section>}
