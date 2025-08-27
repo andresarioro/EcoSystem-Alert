@@ -39,6 +39,7 @@ app.post('/get-data', async (req, res) => {
   }
 })
 
+
 app.post('/get-pred', async (req, res) => {
   const { sensorType } = await req.body
 
@@ -68,9 +69,14 @@ port.open(err => {
 // 📤 Enviar datos recibidos al cliente vía WebSocket
 parser.on('data', async (data) => {
   const result = data.trim()
-  // suponiendo que dato es Sensor tal: 202
+
+  console.log(result)
+  // suponiendo que dato es Sensor tal:
+  //  202
   const sensor = result.split(':')[0]
   const value = Number(result.split(': ')[1])
+
+  console.log(sensor, value)
 
   // si el valor es + de 1000 manda alerta
   // L: 1024

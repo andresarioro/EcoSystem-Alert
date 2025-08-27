@@ -22,12 +22,11 @@ export function Dashboard () {
   
     useEffect(() => {
       try {
-        console.log('A')
         const socket = io('http://localhost:3000')
 
         console.log(socket)
   
-        socket.emit('prediction',() => {
+        socket.emit('prediction', () => {
           console.log('a')
         })
   

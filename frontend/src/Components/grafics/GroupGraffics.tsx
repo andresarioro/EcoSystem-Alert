@@ -43,6 +43,20 @@ export function GroupGraffics() {
                     </div>
                 </header>
 
+                {/*Imagen satelite */}
+                <section className="w-9/10 rounded-md p-2 bg-gradient-to-t from-[var(--primary-color)]/20 to-[var(--primary-color)]">
+                    {/* Imagen */}
+                    <div className="w-full flex flex-col items-center justify-center gap-2">
+                        <h1 className="text-xl font-bold">Territorio desde satelite</h1>
+                        <img src="" alt="imagen-satelital" className="w-95/100 md:85/100 h-60 rounded-md bg-gray-400" />
+                    </div>
+                    {/*informacion */}
+                    <div className="w-full flex justify-between items-center mt-5">
+                        <p className="text-sm w-7/10">En esta pagina se veran las vistas satelitales de calor del territorio</p>
+                        <button className="rounded-md px-4 py-1 bg-[#1cd933] text-sm font-bold">En desarrollo...</button> 
+                    </div>
+                </section>
+
                 {/*Primera grafica */}
 
                 <section className="w-full flex flex-col justify-center items-center gap-4">
