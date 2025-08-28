@@ -48,7 +48,7 @@ export function GroupGraffics() {
                     {/* Imagen */}
                     <div className="w-full flex flex-col items-center justify-center gap-2">
                         <h1 className="text-xl font-bold">Territorio desde satelite</h1>
-                        <img src="" alt="imagen-satelital" className="w-95/100 md:85/100 h-60 rounded-md bg-gray-400" />
+                        <img src="https://i.ibb.co/GfSTPm9v/imagen-2025-08-27-211821955.png" alt="imagen-satelital" className="w-95/100 md:85/100 h-100 rounded-md bg-gray-400 object-cover" />
                     </div>
                     {/*informacion */}
                     <div className="w-full flex justify-between items-center mt-5">
