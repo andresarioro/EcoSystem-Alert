@@ -23,20 +23,17 @@ export default function GreenGrafic() {
   useEffect(() => {
     const socket = io('http://localhost:3000')
 
+    socket.emit('serial-data', () => {
+      console.log('b')
+    })
+
     socket.on('serial-data', (data: { type: string, value: number }) => {
-      // hay que mandar desde el backend los nombres de los sensores como H, A, G, V, LL
-
       setSnsData((prevData) => {
-        const updatedData = [...prevData]
-        const index = updatedData.findIndex(item => item.name === data.type) 
-
-        if (index !== -1) {
-          updatedData[index].value = data.value
-        } else {
-          updatedData.push({ name: data.type, value: data.value }) // Agrega un nuevo sensor si no existe
-        }
-
-        return updatedData
+        return prevData.map((item) => {
+          if (item.name === data.type) return { ...item, value: data.value }
+          
+          return item
+        })
       })
     })
 
@@ -46,14 +43,43 @@ export default function GreenGrafic() {
   }, [])
 
   return (
-    <ResponsiveContainer width='100%' height={400} key={snsData.toString()}>
-      <BarChart data={snsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
-      </BarChart>
-    </ResponsiveContainer>
+    <section className='w-full h-full flex flex-col justify-center items-center gap-5'>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+        <BarChart data={[snsData[0]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
+        </BarChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+        <BarChart data={[snsData[1]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
+        </BarChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+        <BarChart data={[snsData[2]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
+        </BarChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+        <BarChart data={[snsData[3]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
+        </BarChart>
+      </ResponsiveContainer>
+    </section>
   )
 }

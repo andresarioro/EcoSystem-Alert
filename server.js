@@ -7,6 +7,8 @@ import { ReadlineParser } from '@serialport/parser-readline'
 import { BOT_TOKEN, CHAT_ID, configPort, PORT } from './config.js'
 import { SensorRepository } from './repository/repository.js'
 import { entrenarYPredecir } from './trainModel.js'
+import e from 'express'
+import EventEmitter from 'node:events'
 
 // 🖥️ Inicializar Express y servidor HTTP
 const app = express()
@@ -39,6 +41,13 @@ app.post('/get-data', async (req, res) => {
   }
 })
 
+// app.get('/get-preds', async (req, res) => {
+//   try {
+
+//   } catch (e) {
+
+//   }
+// })
 
 app.post('/get-pred', async (req, res) => {
   const { sensorType } = await req.body
@@ -66,17 +75,20 @@ port.open(err => {
   console.log(`✅ Puerto ${port.path} abierto correctamente.`)
 })
 
+let type = ''
+let valueSensor = 0
+
 // 📤 Enviar datos recibidos al cliente vía WebSocket
 parser.on('data', async (data) => {
   const result = data.trim()
-
-  console.log(result)
   // suponiendo que dato es Sensor tal:
   //  202
-  const sensor = result.split(':')[0]
-  const value = Number(result.split(': ')[1])
 
-  console.log(sensor, value)
+  console.log(result)
+  const sensor = result ? result.split(': ')[0] : 'N'
+  const value = result ? Number(result.split(': ')[1]) : 0
+
+  const firstLetter = sensor[0].toUpperCase()
 
   // si el valor es + de 1000 manda alerta
   // L: 1024
@@ -86,16 +98,16 @@ parser.on('data', async (data) => {
   //           maxValueV > 400 && maxValueV < 800 
   //       ) 
 
-  if (sensor === 'H' > 400 && sensor === 'H' < 800 ||
-      sensor === 'C' > 400 && sensor === 'C' < 800 ||
-      sensor === 'L' > 50 && sensor === 'L' < 100 ||
-      sensor === 'V' > 400 && sensor === 'V' < 800
+  if (firstLetter === 'H' > 400 && firstLetter === 'H' < 800 ||
+      firstLetter === 'C' > 400 && firstLetter === 'C' < 800 ||
+      firstLetter === 'L' > 50 && firstLetter === 'L' < 100 ||
+      firstLetter === 'V' > 400 && firstLetter === 'V' < 800
   ) {
     const sensorName = (
-      sensor === 'H' && 'Humedad' ?
-      sensor === 'V' && 'Vibracion' :
-      sensor === 'L' && 'Lluvia' &&
-      sensor === 'C' && 'Cambio'
+      firstLetter === 'H' && 'Humedad' ?
+      firstLetter === 'V' && 'Vibracion' :
+      firstLetter === 'L' && 'Lluvia' &&
+      firstLetter === 'C' && 'Cambio'
     )
 
     const textMessage = `Aviso 🚧: El Sensor ${sensorName} tiene señales sospechosas, recomendado visualizar la zona`
@@ -112,16 +124,16 @@ parser.on('data', async (data) => {
     })
 
     if (!tgRes.ok) throw new Error('Error al enviar el mensaje a telegram')
-  } else if (sensor === 'H' > 800 ||
-        sensor === 'C' > 800 ||
-        sensor === 'L' > 100 ||
-        sensor === 'V' > 800
+  } else if (firstLetter === 'H' > 800 ||
+        firstLetter === 'C' > 800 ||
+        firstLetter === 'L' > 100 ||
+        firstLetter === 'V' > 800
   ) {
     const sensorName = (
-      sensor === 'H' && 'Humedad' ?
-      sensor === 'V' && 'Vibracion' :
-      sensor === 'L' && 'Lluvia' &&
-      sensor === 'C' && 'Cambio'
+      firstLetter === 'H' && 'Humedad' ?
+      firstLetter === 'V' && 'Vibracion' :
+      firstLetter === 'L' && 'Lluvia' &&
+      firstLetter === 'C' && 'Cambio'
     )
 
     const textMessage = `Alerta ⚠❗: El Sensor ${sensorName} tiene señales alertantes, visualizar y revisar la zona urgentemente`
@@ -141,42 +153,60 @@ parser.on('data', async (data) => {
   }
 
   // suponiendo que data.trim() sea Humedad: 51, o Acelerometro: 104, se escoge la primera letra del nombre del sensor
-  await SensorRepository.saveData({ sensorType: sensor[0].toUpperCase(), sensorResult: value })
+  await SensorRepository.saveData({ sensorType: firstLetter.toUpperCase(), sensorResult: value })
+  
+  
   io.emit('serial-data', {
-    type: sensor[0].toUpperCase(),
+    type: firstLetter.toUpperCase(),
     value
   })
+    
 })
 
+EventEmitter.defaultMaxListeners = 1000
+
 io.on('connection', async (socket) => {
-  socket.on('prediction', async () => {
-    const datosH = await SensorRepository.getSensorsData('H')
-    const datosV = await SensorRepository.getSensorsData('V')
-    const datosC = await SensorRepository.getSensorsData('C')
-    const datosL = await SensorRepository.getSensorsData('L')
+  socket.on('serial-data', async () => {
+    io.emit('serial-data' ,{
+      type,
+      value: valueSensor
+    })
+  })
+
+  const getPredsData = async () => {
+    console.log('a')
+    
+    const datosH = (await SensorRepository.getSensorsData('H')).map(Number)
+    const datosV = (await SensorRepository.getSensorsData('V')).map(Number)
+    const datosC = (await SensorRepository.getSensorsData('C')).map(Number)
+    const datosL = (await SensorRepository.getSensorsData('L')).map(Number)
 
     if (!datosH || datosH.length < 23) {
-      socket.emit('error', {
+      io.emit('error', {
         message: 'No hay suficientes datos para hacer una prediccion en el sensor de Humedad'
       })
+      return
     }
 
     if (!datosV || datosV.length < 23) {
-      socket.emit('error', {
+      io.emit('error', {
         message: 'No hay suficientes datos para hacer una prediccion en la vibracion'
       })
+      return
     }
 
     if (!datosL || datosL.length < 23) {
-      socket.emit('error', {
+      io.emit('error', {
         message: 'No hay suficientes datos para hacer una prediccion en el sensor de Lluvias'
       })
+      return
     }
 
     if (!datosC || datosC.length < 23) {
-      socket.emit('error', {
+      io.emit('error', {
         message: 'No hay suficientes datos para hacer una prediccion en el cambio del giroscopio y acelerometro'
       })
+      return
     }
 
     const predH = await entrenarYPredecir('H', datosH)
@@ -184,13 +214,26 @@ io.on('connection', async (socket) => {
     const predL = await entrenarYPredecir('L', datosL)
     const predC = await entrenarYPredecir('C', datosC)
 
-    io.emit('prediction', {
+    console.log(predV)
+
+    console.log({
       predictionsH: predH,
       predictionsV: predV,
       predictionsL: predL,
       predictionsC: predC     
     })
-  })
+
+    return {
+      predictionsH: predH,
+      predictionsV: predV,
+      predictionsL: predL,
+      predictionsC: predC     
+    }
+  }
+
+  const resultPreds = await getPredsData()
+
+  io.emit('prediction', resultPreds) 
 })
 
 

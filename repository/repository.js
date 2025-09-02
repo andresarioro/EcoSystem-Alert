@@ -12,7 +12,7 @@ export class SensorRepository {
     if (!sensorType) return []
 
     const result = await sql`SELECT sensor_result FROM datos WHERE sensor_type = ${sensorType}
-    AND created_at >= NOW() - INTERVAL '8 hours';`
+    AND created_at >= NOW() - INTERVAL '8 hours' LIMIT 100;`
 
     const sensorValues = result.map(data => data.sensor_result)
 

@@ -19,12 +19,6 @@ export function GreenGrafic8hrs () {
       console.log('A')
       const socket = io('http://localhost:3000')
 
-      console.log(socket)
-
-      socket.emit('prediction',() => {
-        console.log('a')
-      })
-
       socket.on('prediction', (predictionData: PredictionData) => {
         console.log(predictionData)
         setDataPredictions([
@@ -49,16 +43,52 @@ export function GreenGrafic8hrs () {
   console.log(dataPredictions)
 
   return (
-    <ResponsiveContainer width='100%' height={400} key={dataPredictions.toString()}>
-      <BarChart data={dataPredictions} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='name' />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-        <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-        <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-      </BarChart>
-    </ResponsiveContainer>
+    <section className='w-full h-full flex flex-col justify-center items-center gap-5'>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+        <BarChart data={[dataPredictions[0]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='name' />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+        </BarChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+        <BarChart data={[dataPredictions[1]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='name' />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+        </BarChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+        <BarChart data={[dataPredictions[2]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='name' />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+        </BarChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+        <BarChart data={[dataPredictions[3]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='name' />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+        </BarChart>
+      </ResponsiveContainer>
+    </section>
+      
   )
 }
