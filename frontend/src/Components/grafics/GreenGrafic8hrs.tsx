@@ -1,93 +1,85 @@
 import { useEffect, useState } from 'react'
-import { Bar, BarChart, CartesianGrid, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { io } from 'socket.io-client'
-import type { PredictionData } from '../../types/types'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { fetchProms } from '../../fetchs/fetchs'
 
 // esto traerselo desde db
 const data = [
-  { name: 'H', value1: 0, value2: 0, value3: 0 },
-  { name: 'C', value1: 0, value2: 0, value3: 0 },
-  { name: 'V', value1: 0, value2: 0, value3: 0 },
-  { name: 'L', value1: 0, value2: 0, value3: 0 }
+  { name: 'H', value: 0, },
+  { name: 'V', value: 0, },
+  { name: 'C', value: 0, },
+  { name: 'L', value: 0 }
 ]
 
 export function GreenGrafic8hrs () {
   const [dataPredictions, setDataPredictions] = useState(data)
 
   useEffect(() => {
-    try {
-      console.log('A')
-      const socket = io('http://localhost:3000')
+    const getProms = async () => {
+      const proms = await fetchProms()
 
-      socket.on('prediction', (predictionData: PredictionData) => {
-        console.log(predictionData)
-        setDataPredictions([
-          { name: 'C', value1: predictionData.predictionsC[0], value2: predictionData.predictionsC[1], value3: predictionData.predictionsC[2] },
-          { name: 'H', value1: predictionData.predictionsH[0], value2: predictionData.predictionsH[1], value3: predictionData.predictionsH[2] },
-          { name: 'V', value1: predictionData.predictionsV[0], value2: predictionData.predictionsV[1], value3: predictionData.predictionsV[2] },
-          { name: 'L', value1: predictionData.predictionsL[0], value2: predictionData.predictionsL[1], value3: predictionData.predictionsL[2] }
-        ])
-      })
-
-      
-
-      return () => {
-        socket.off()
-      }
-    } catch (e) {
-      console.log(e)
+      setDataPredictions([
+        {
+          name: 'H', 
+          value: proms.promH,
+        }, {
+          name: 'V',
+          value: proms.promV
+        }, {
+          name: 'C',
+          value: proms.promC
+        }, {
+          name: 'L',
+          value: proms.promL
+        }
+      ])
     }
+
+    getProms()
+    
     
   }, [])
 
-  console.log(dataPredictions)
-
   return (
     <section className='w-full h-full flex flex-col justify-center items-center gap-5'>
-      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString() + 'a'}>
         <BarChart data={[dataPredictions[0]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='name' />
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value" fill="#1bf16aff" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString() + 'b'}>
         <BarChart data={[dataPredictions[1]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='name' />
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value" fill="#1bf16aff" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString() + 'c'}>
         <BarChart data={[dataPredictions[2]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='name' />
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value" fill="#1bf16aff" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={dataPredictions.toString() + 'd'}>
         <BarChart data={[dataPredictions[3]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='name' />
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="value1" fill="#16e38e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="value2" fill="#16e62e" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-          <Bar dataKey="value3" fill="#18e90e" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey="value" fill="#1bf16aff" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
+      <aside>
+        <p className='text-center font-bold text-sm mb-3'>Las predicciones pueden demorar entre 1 o 2 minutos para obtenerse</p>
+      </aside>
     </section>
       
   )

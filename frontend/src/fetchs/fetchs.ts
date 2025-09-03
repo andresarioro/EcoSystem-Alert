@@ -25,3 +25,10 @@ export async function fetchPreds (sensorType: string) {
 
     return data.res
 }
+
+export async function fetchProms () {
+    const res = await fetch('http://localhost:3000/get-proms')
+    const data = await res.json()
+
+    return data
+}

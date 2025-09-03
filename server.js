@@ -41,14 +41,6 @@ app.post('/get-data', async (req, res) => {
   }
 })
 
-// app.get('/get-preds', async (req, res) => {
-//   try {
-
-//   } catch (e) {
-
-//   }
-// })
-
 app.post('/get-pred', async (req, res) => {
   const { sensorType } = await req.body
 
@@ -58,6 +50,29 @@ app.post('/get-pred', async (req, res) => {
     return res.status(200).json({ res: predRes })
   } catch (e) {
     return res.status(500).json({ error: e.message })
+  }
+})
+
+app.get('/get-proms', async (req, res) => {
+  try {
+    const datosH = (await SensorRepository.getSensorsData('H')).map(Number)
+    const datosV = (await SensorRepository.getSensorsData('V')).map(Number)
+    const datosC = (await SensorRepository.getSensorsData('C')).map(Number)
+    const datosL = (await SensorRepository.getSensorsData('L')).map(Number)
+
+    const promH = datosH.reduce((ant, curr) => ant + curr, 0) / datosH.length
+    const promV = datosV.reduce((ant, curr) => ant + curr, 0) / datosV.length
+    const promC = datosC.reduce((ant, curr) => ant + curr, 0) / datosC.length
+    const promL = datosL.reduce((ant, curr) => ant + curr, 0) / datosL.length
+
+    return res.status(200).json({
+      promH,
+      promV,
+      promC,
+      promL
+    }) 
+  } catch (e) {
+    res.status(500).json({ error: e.message })
   }
 })
 

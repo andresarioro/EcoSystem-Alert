@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import type { alerts, PredictionData } from '../types/types'
 import { CheckIcon, ExclamationTriangleIcon, MinusIcon } from '@heroicons/react/24/outline'
+import { fetchPreds } from '../fetchs/fetchs'
 
 const data = [
   { name: 'H', value1: 0, value2: 0, value3: 0 },
@@ -21,70 +22,70 @@ export function Dashboard () {
   const [alert, setAlert] = useState<alerts>()
   
     useEffect(() => {
-      console.log('a')
       try {
-        console.log('b')
-        const socket = io('http://localhost:3000')
-        console.log(socket)
+        const getPredsAndAnalize = async () => {
+          const predH = await fetchPreds('H')
+          const predV = await fetchPreds('V')
+          const predC = await fetchPreds('C')
+          const predL = await fetchPreds('L')
 
-        socket.on('prediction', (predictionData: PredictionData) => {
-          console.log(predictionData, 'a')
-          setDataPredictions([
-            { name: 'C', value1: predictionData.predictionsC[0], value2: predictionData.predictionsC[1], value3: predictionData.predictionsC[2] },
-            { name: 'H', value1: predictionData.predictionsH[0], value2: predictionData.predictionsH[1], value3: predictionData.predictionsH[2] },
-            { name: 'V', value1: predictionData.predictionsV[0], value2: predictionData.predictionsV[1], value3: predictionData.predictionsV[2] },
-            { name: 'L', value1: predictionData.predictionsL[0], value2: predictionData.predictionsL[1], value3: predictionData.predictionsL[2] },
-          ])
-        })
+          const preds = [
+            {
+              value1: predH[0],
+              value2: predH[1],
+              value3: predH[2]
+            }, {
+              value1: predV[0],
+              value2: predV[1],
+              value3: predV[2]
+            }, {
+              value1: predC[0],
+              value2: predC[1],
+              value3: predC[2]
+            }, {
+              value1: predL[0],
+              value2: predL[1],
+              value3: predL[2]
+            }
 
-        // socket.emit('prediction', () => {
-        //   console.log('a')
-        // })
-  
-        // socket.on('prediction', (predictionData: PredictionData) => {
-        //   console.log(predictionData, 'a')
-        //   setDataPredictions([
-        //     { name: 'C', value1: predictionData.predictionsC[0], value2: predictionData.predictionsC[1], value3: predictionData.predictionsC[2] },
-        //     { name: 'H', value1: predictionData.predictionsH[0], value2: predictionData.predictionsH[1], value3: predictionData.predictionsH[2] },
-        //     { name: 'V', value1: predictionData.predictionsV[0], value2: predictionData.predictionsV[1], value3: predictionData.predictionsV[2] },
-        //     { name: 'L', value1: predictionData.predictionsL[0], value2: predictionData.predictionsL[1], value3: predictionData.predictionsL[2] },
-        //   ])
-        // })
+            
+          ]
 
-        const maxValueC = Math.max(dataPredictions[0].value1, dataPredictions[0].value2, dataPredictions[0].value3)
-        const maxValueH = Math.max(dataPredictions[1].value1, dataPredictions[1].value2, dataPredictions[1].value3)
-        const maxValueV = Math.max(dataPredictions[2].value1, dataPredictions[2].value2, dataPredictions[2].value3)
-        const maxValueL = Math.max(dataPredictions[3].value1, dataPredictions[3].value2, dataPredictions[3].value3)
+          
 
-        // Condicionales, si hay alertas
-        // Condicionales, cambio giroscopio
-        // lluvia, por cms cubicos
-        if (maxValueH > 400 && maxValueH < 800 ||
-            maxValueC > 400 && maxValueC < 800 ||
-            maxValueL > 50 && maxValueL < 100 ||
-            maxValueV > 400 && maxValueV < 800 
-        ) {
-          setAlert({
-            alertMsg: 'Hay que tener precaucion en el terreno',
-            alertLvl: 2
-          })
-        } else if (maxValueH > 800 || maxValueC > 800 ||
-          maxValueL > 800 || maxValueV > 800
-        ) {
-          setAlert({ 
-            alertMsg: 'Alerta maxima, hay valores muy preocupantes y riesgosos en los sensores',
-            alertLvl: 3
-          })
-        } else {
-          setAlert({ 
-            alertMsg: 'Todo esta bien en los sensores',
-            alertLvl: 1
-          })
+          const maxValueC = Math.max(dataPredictions[0].value1, dataPredictions[0].value2, dataPredictions[0].value3)
+          const maxValueH = Math.max(dataPredictions[1].value1, dataPredictions[1].value2, dataPredictions[1].value3)
+          const maxValueV = Math.max(dataPredictions[2].value1, dataPredictions[2].value2, dataPredictions[2].value3)
+          const maxValueL = Math.max(dataPredictions[3].value1, dataPredictions[3].value2, dataPredictions[3].value3)
+
+          // Condicionales, si hay alertas
+          // Condicionales, cambio giroscopio
+          // lluvia, por cms cubicos
+          if (maxValueH > 400 && maxValueH < 800 ||
+              maxValueC > 400 && maxValueC < 800 ||
+              maxValueL > 50 && maxValueL < 100 ||
+              maxValueV > 400 && maxValueV < 800 
+          ) {
+            setAlert({
+              alertMsg: 'Hay que tener precaucion en el terreno',
+              alertLvl: 2
+            })
+          } else if (maxValueH > 800 || maxValueC > 800 ||
+            maxValueL > 800 || maxValueV > 800
+          ) {
+            setAlert({ 
+              alertMsg: 'Alerta maxima, hay valores muy preocupantes y riesgosos en los sensores',
+              alertLvl: 3
+            })
+          } else {
+            setAlert({ 
+              alertMsg: 'Todo esta bien en los sensores',
+              alertLvl: 1
+            })
+          }
         }
-  
-        return () => {
-          socket.off()
-        }
+
+        
       } catch (e) {
         console.log(e)
       }

@@ -44,7 +44,7 @@ export default function GreenGrafic() {
 
   return (
     <section className='w-full h-full flex flex-col justify-center items-center gap-5'>
-      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString() + 'a'}>
         <BarChart data={[snsData[0]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
@@ -53,7 +53,7 @@ export default function GreenGrafic() {
           <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString() + 'b'}>
         <BarChart data={[snsData[1]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
@@ -62,7 +62,7 @@ export default function GreenGrafic() {
           <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString() + 'c'}>
         <BarChart data={[snsData[2]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
@@ -71,7 +71,7 @@ export default function GreenGrafic() {
           <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width='100%' height={250} key={snsData.toString()}>
+      <ResponsiveContainer width='100%' height={250} key={snsData.toString() + 'd'}>
         <BarChart data={[snsData[3]]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
@@ -80,6 +80,9 @@ export default function GreenGrafic() {
           <Bar dataKey="value" fill="#22c55e" /> {/* verde Tailwind: green-500 */}
         </BarChart>
       </ResponsiveContainer>
+      <aside>
+        <p className='text-center font-bold text-sm mb-5'>El grafico de la Lluvia (L) funciona diferente, representa la cantidad de lluvia recogida (en milimetros cubicos) en un rango de tiempo</p>
+      </aside>
     </section>
   )
 }
