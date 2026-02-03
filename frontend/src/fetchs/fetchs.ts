@@ -1,5 +1,7 @@
+const backendUrl = 'http://localhost:3000'
+
 export async function fetchDataSensors (sensorType: string) {
-    const res = await fetch('http://localhost:3000/get-data', {
+    const res = await fetch(`${backendUrl}/get-data`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -13,7 +15,7 @@ export async function fetchDataSensors (sensorType: string) {
 }
 
 export async function fetchPreds (sensorType: string) {
-    const res = await fetch('http://localhost:3000/get-pred', {
+    const res = await fetch(`${backendUrl}/get-pred`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -27,7 +29,7 @@ export async function fetchPreds (sensorType: string) {
 }
 
 export async function fetchProms () {
-    const res = await fetch('http://localhost:3000/get-proms')
+    const res = await fetch(`${backendUrl}/get-proms`)
     const data = await res.json()
 
     return data

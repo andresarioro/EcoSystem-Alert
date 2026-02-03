@@ -21,6 +21,7 @@ export default function GreenGrafic() {
   ])
 
   useEffect(() => {
+    // cambiar url cuando cambia la url del servidor
     const socket = io('http://localhost:3000')
 
     socket.emit('serial-data', () => {
