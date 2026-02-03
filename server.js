@@ -7,7 +7,6 @@ import { ReadlineParser } from '@serialport/parser-readline'
 import { BOT_TOKEN, CHAT_ID, configPort, PORT } from './config.js'
 import { SensorRepository } from './repository/repository.js'
 import { entrenarYPredecir } from './trainModel.js'
-import e from 'express'
 import EventEmitter from 'node:events'
 
 // 🖥️ Inicializar Express y servidor HTTP
@@ -105,6 +104,8 @@ parser.on('data', async (data) => {
 
   const firstLetter = sensor[0].toUpperCase()
 
+  console.log((firstLetter === 'H' > 400 && firstLetter === 'H' < 800))
+
   // si el valor es + de 1000 manda alerta
   // L: 1024
   // if (maxValueH > 400 && maxValueH < 800 ||
@@ -118,6 +119,7 @@ parser.on('data', async (data) => {
       firstLetter === 'L' > 50 && firstLetter === 'L' < 100 ||
       firstLetter === 'V' > 400 && firstLetter === 'V' < 800
   ) {
+    console.log('a')
     const sensorName = (
       firstLetter === 'H' && 'Humedad' ?
       firstLetter === 'V' && 'Vibracion' :
@@ -137,6 +139,8 @@ parser.on('data', async (data) => {
         text: textMessage
       })
     })
+
+    console.log('mensaje enviado')
 
     if (!tgRes.ok) throw new Error('Error al enviar el mensaje a telegram')
   } else if (firstLetter === 'H' > 800 ||
@@ -189,8 +193,6 @@ io.on('connection', async (socket) => {
   })
 
   const getPredsData = async () => {
-    console.log('a')
-    
     const datosH = (await SensorRepository.getSensorsData('H')).map(Number)
     const datosV = (await SensorRepository.getSensorsData('V')).map(Number)
     const datosC = (await SensorRepository.getSensorsData('C')).map(Number)
@@ -222,6 +224,8 @@ io.on('connection', async (socket) => {
         message: 'No hay suficientes datos para hacer una prediccion en el cambio del giroscopio y acelerometro'
       })
       return
+
+      
     }
 
     const predH = await entrenarYPredecir('H', datosH)

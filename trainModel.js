@@ -48,6 +48,7 @@ async function entrenarModelo (datos) {
 export async function entrenarYPredecir (nombre, datos) {
   try {
     const pred = await entrenarModelo(datos)
+    console.log('pred', pred)
     // se ve como si fuera un array dentro de otro ([[]]), pero en realidad se los indices se maneja como si fuera un array normal
     return pred.map(v => v.toFixed(2))
   } catch (err) {

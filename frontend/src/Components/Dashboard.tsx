@@ -2,32 +2,35 @@ import { useNavigate } from 'react-router-dom'
 import GreenGrafic from './grafics/GreenGrafic'
 import { GreenGrafic8hrs } from './grafics/GreenGrafic8hrs'
 import { useEffect, useState } from 'react'
-import { io } from 'socket.io-client'
-import type { alerts, PredictionData } from '../types/types'
+import type { alerts } from '../types/types'
 import { CheckIcon, ExclamationTriangleIcon, MinusIcon } from '@heroicons/react/24/outline'
 import { fetchPreds } from '../fetchs/fetchs'
-
-const data = [
-  { name: 'H', value1: 0, value2: 0, value3: 0 },
-  { name: 'A', value1: 0, value2: 0, value3: 0 },
-  { name: 'G', value1: 0, value2: 0, value3: 0 },
-  { name: 'V', value1: 0, value2: 0, value3: 0 },
-  { name: 'L', value1: 0, value2: 0, value3: 0 }
-]
 
 export function Dashboard () {
   const navigate = useNavigate()
 
-  const [dataPredictions, setDataPredictions] = useState(data)
   const [alert, setAlert] = useState<alerts>()
+  const [loading, setLoading] = useState(true)
   
     useEffect(() => {
+      setLoading(true)
       try {
         const getPredsAndAnalize = async () => {
           const predH = await fetchPreds('H')
           const predV = await fetchPreds('V')
           const predC = await fetchPreds('C')
           const predL = await fetchPreds('L')
+
+          if (!predH || !predV || !predC || !predL) {
+            setAlert({ 
+              alertMsg: 'Todo esta bien en los sensores',
+              alertLvl: 1
+            })
+
+            setLoading(false)
+
+            return
+        }
 
           const preds = [
             {
@@ -47,16 +50,14 @@ export function Dashboard () {
               value2: predL[1],
               value3: predL[2]
             }
-
-            
           ]
 
           
 
-          const maxValueC = Math.max(dataPredictions[0].value1, dataPredictions[0].value2, dataPredictions[0].value3)
-          const maxValueH = Math.max(dataPredictions[1].value1, dataPredictions[1].value2, dataPredictions[1].value3)
-          const maxValueV = Math.max(dataPredictions[2].value1, dataPredictions[2].value2, dataPredictions[2].value3)
-          const maxValueL = Math.max(dataPredictions[3].value1, dataPredictions[3].value2, dataPredictions[3].value3)
+          const maxValueC = Math.max(preds[0].value1, preds[0].value2, preds[0].value3)
+          const maxValueH = Math.max(preds[1].value1, preds[1].value2, preds[1].value3)
+          const maxValueV = Math.max(preds[2].value1, preds[2].value2, preds[2].value3)
+          const maxValueL = Math.max(preds[3].value1, preds[3].value2, preds[3].value3)
 
           // Condicionales, si hay alertas
           // Condicionales, cambio giroscopio
@@ -85,12 +86,15 @@ export function Dashboard () {
           }
         }
 
-        
+        getPredsAndAnalize()
+        setLoading(false)
       } catch (e) {
         console.log(e)
+        setLoading(false)
       }
-      
     }, [])
+
+    console.log(alert, loading)
 
   return (
     <main className='text-black font-montserrat flex flex-col items-center justify-center min-h-screen w-full bg-gray-200'>
@@ -126,7 +130,13 @@ export function Dashboard () {
             <h2 className='text-2xl text-center font-bold'>Señales de alerta</h2>
             <p className='text-center'>Aquí se mostrarán las señales de alerta detectadas por el sistema.</p>
           </div>
-          {alert && <section>
+            {!alert &&
+              <div className='flex flex-col items-center justify-center mt-3 pb-5'>
+                  <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                <p className='text-center'>Cargando...</p>
+              </div> 
+            } 
+          {alert && !loading && <section>
             {alert.alertLvl === 1 &&
               <div className='flex flex-col items-center justify-center mt-3 pb-5'>
                 <div className='bg-[var(--primary-color)] p-3 rounded-full'>
@@ -146,7 +156,7 @@ export function Dashboard () {
                 <ExclamationTriangleIcon className='w-7 h-7'/>
                 <p className='text-center'>Alerta</p>
               </div>
-            }  {/*Mostrar svg despues */}
+            } {/*Mostrar svg despues */}
           </section>}
         </section>
       </section>

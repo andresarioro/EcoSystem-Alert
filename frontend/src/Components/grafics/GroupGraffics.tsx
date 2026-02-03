@@ -30,6 +30,8 @@ export function GroupGraffics() {
         getPreds()
     }, [])
 
+    console.log(hPreds, cPreds)
+
     return (
         <main className='text-black font-montserrat flex flex-col items-center justify-center min-h-screen w-full bg-gray-200'>
             <section className='overflow-y-auto overflow-x-hidden scrollbar-custom box-shadow-custom flex flex-col items-center gap-10 bg-white w-85/100 md:w-70/100 h-[600px] sm:h-[700px] rounded-xl'>
