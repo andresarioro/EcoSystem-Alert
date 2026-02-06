@@ -16,7 +16,9 @@ export class SensorRepository {
 
     const sensorValues = result.map(data => data.sensor_result)
 
-    return sensorValues
+    console.log('sensor-value', sensorValues)
+
+    return sensorValues.map(Number)
   }
 
   static async getSensorsDataWithoutPred (sensorType) {
