@@ -14,14 +14,16 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: '*'
+    origin: '*',
+    methods: ["GET", "POST"]
   }
 })
 
 app.use(express.json());
 
 app.use(cors({
-  origin: '*'
+  origin: '*',
+  methods: ['GET', "POST"]
 }))
 
 // 🌐 Servir archivos estáticos desde carpeta 'public'
@@ -104,7 +106,7 @@ parser.on('data', async (data) => {
 
   const firstLetter = sensor[0].toUpperCase()
 
-  console.log((firstLetter === 'H' > 400 && firstLetter === 'H' < 800))
+  // console.log((firstLetter === 'H' > 400 && firstLetter === 'H' < 800))
 
   // si el valor es + de 1000 manda alerta
   // L: 1024
@@ -114,10 +116,10 @@ parser.on('data', async (data) => {
   //           maxValueV > 400 && maxValueV < 800 
   //       ) 
 
-  if (firstLetter === 'H' > 400 && firstLetter === 'H' < 800 ||
-      firstLetter === 'C' > 400 && firstLetter === 'C' < 800 ||
-      firstLetter === 'L' > 50 && firstLetter === 'L' < 100 ||
-      firstLetter === 'V' > 400 && firstLetter === 'V' < 800
+  if (firstLetter === 'H' && value > 400 && firstLetter === 'H' && value < 800 ||
+      firstLetter === 'C' && value > 400 && firstLetter === 'C' && value < 800 ||
+      firstLetter === 'L' && value > 50 && firstLetter === 'L' && value< 100 ||
+      firstLetter === 'V' && value > 400 && firstLetter === 'V' && value < 800
   ) {
     console.log('a')
     const sensorName = (
@@ -127,22 +129,22 @@ parser.on('data', async (data) => {
       firstLetter === 'C' && 'Cambio'
     )
 
-    const textMessage = `Aviso 🚧: El Sensor ${sensorName} tiene señales sospechosas, recomendado visualizar la zona`
+    // const textMessage = `Aviso 🚧: El Sensor ${sensorName} tiene señales sospechosas, recomendado visualizar la zona`
     
-    const tgRes = fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json' 
-      },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: textMessage
-      })
-    })
+    // const tgRes = fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json' 
+    //   },
+    //   body: JSON.stringify({
+    //     chat_id: CHAT_ID,
+    //     text: textMessage
+    //   })
+    // })
 
-    console.log('mensaje enviado')
+    // console.log('mensaje enviado')
 
-    if (!tgRes.ok) throw new Error('Error al enviar el mensaje a telegram')
+    // if (!tgRes.ok) throw new Error('Error al enviar el mensaje a telegram')
   } else if (firstLetter === 'H' > 800 ||
         firstLetter === 'C' > 800 ||
         firstLetter === 'L' > 100 ||
@@ -173,18 +175,17 @@ parser.on('data', async (data) => {
 
   // suponiendo que data.trim() sea Humedad: 51, o Acelerometro: 104, se escoge la primera letra del nombre del sensor
   await SensorRepository.saveData({ sensorType: firstLetter.toUpperCase(), sensorResult: value })
-  
-  
+
   io.emit('serial-data', {
     type: firstLetter.toUpperCase(),
     value
   })
-    
 })
+
 
 EventEmitter.defaultMaxListeners = 1000
 
-io.on('connection', async (socket) => {
+io.on('connect', async (socket) => {
   socket.on('serial-data', async () => {
     io.emit('serial-data' ,{
       type,
