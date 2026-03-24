@@ -99,25 +99,25 @@ export function Dashboard () {
   return (
     <main className='text-black font-montserrat flex flex-col items-center justify-center min-h-screen w-full bg-gray-200'>
       <section className='overflow-y-auto overflow-x-hidden scrollbar-custom box-shadow-custom flex flex-col items-center gap-10 bg-white w-85/100 md:w-70/100 h-[600px] rounded-xl'>
-      <header className='flex w-full justify-between items-center px-2'>
+      <header className='flex w-full justify-between items-center px-2 py-4'>
        <div className='max-w-sm p-2'>
-          <img src='/orth.svg' alt='Marina-Orth-logo' className='w-20 md:w-40 h-auto object-contain rounded' />
+          <img src='/orth.svg' alt='Marina-Orth-logo' className='w-10 md:w-30 h-auto object-contain rounded' />
         </div>
         <h1 className='text-lg md:text-3xl text-center font-bold mt-5'>Ecosystem Dashboard</h1>
         <div className='max-w-sm'>
-          <img src='/Ecosystem-logo.svg' alt='Ecosystem-logo' className='w-20 md:w-40 h-auto object-contain rounded' />
+          <img src='/Ecosystem-logo.svg' alt='Ecosystem-logo' className='w-10 md:w-30 h-auto object-contain rounded' />
         </div>
       </header>
         <section className='overflow-y-auto overflow-x-hidden scrollbar-custom flex flex-col items-center gap-10 bg-white w-85/100 md:w-70/100 h-full rounded-xl'>
           <section className='w-full flex gap-10 md:flex-row flex-col items-center justify-center p-5'>
             <section className='w-full md:w-1/2 xl:h-[450px]'>
-              <h1 className='text-center font-bold text-xl'>Resultados en tiempo real</h1>
+              <h1 className='text-center font-bold text-lg'>Resultados en tiempo real</h1>
               <section className='flex flex-col items-center justify-center'>
                 <GreenGrafic />
               </section>
             </section>
             <section className='w-full md:w-1/2 xl:h-[450px]'>
-              <h1 className='text-center font-bold text-xl'>Ultimas 8 horas</h1>
+              <h1 className='text-center font-bold text-lg'>Ultimas 8 horas</h1>
               <section className='flex flex-col items-center justify-center'>
                 <GreenGrafic8hrs />
               </section>
